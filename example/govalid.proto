@@ -4,6 +4,8 @@ package govalid.v1;
 
 import "google/protobuf/descriptor.proto";
 
+option go_package = "google.golang.org/protobuf/types/known/emptypb";
+
 // Field-level validation options
 message FieldValidation {
   repeated string rules = 1;
