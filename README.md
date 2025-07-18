@@ -80,7 +80,6 @@ protoc \
   --govalidwrapper_opt=Mgovalid.proto=google.golang.org/protobuf/types/known/emptypb \
   --plugin=protoc-gen-govalidwrapper=$(which protoc-gen-govalidwrapper) \
   -I. \
-  -Iproto \
   user.proto
 ```
 
