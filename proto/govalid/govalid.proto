@@ -4,7 +4,7 @@ package govalid.v1;
 
 import "google/protobuf/descriptor.proto";
 
-option go_package = "github.com/khatibomar/protoc-gen-govalidwrapper;main";
+option go_package = "github.com/khatibomar/protoc-gen-govalidwrapper/govalid";
 
 // Field-level validation options
 message FieldValidation {

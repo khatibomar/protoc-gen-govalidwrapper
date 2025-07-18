@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.29.3
-// source: govalid.proto
+// source: govalid/govalid.proto
 
-package main
+package govalid
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -32,7 +32,7 @@ type FieldValidation struct {
 
 func (x *FieldValidation) Reset() {
 	*x = FieldValidation{}
-	mi := &file_govalid_proto_msgTypes[0]
+	mi := &file_govalid_govalid_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +44,7 @@ func (x *FieldValidation) String() string {
 func (*FieldValidation) ProtoMessage() {}
 
 func (x *FieldValidation) ProtoReflect() protoreflect.Message {
-	mi := &file_govalid_proto_msgTypes[0]
+	mi := &file_govalid_govalid_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +57,7 @@ func (x *FieldValidation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FieldValidation.ProtoReflect.Descriptor instead.
 func (*FieldValidation) Descriptor() ([]byte, []int) {
-	return file_govalid_proto_rawDescGZIP(), []int{0}
+	return file_govalid_govalid_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *FieldValidation) GetRules() []string {
@@ -67,51 +67,51 @@ func (x *FieldValidation) GetRules() []string {
 	return nil
 }
 
-var file_govalid_proto_extTypes = []protoimpl.ExtensionInfo{
+var file_govalid_govalid_proto_extTypes = []protoimpl.ExtensionInfo{
 	{
 		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
 		ExtensionType: (*FieldValidation)(nil),
 		Field:         50001,
 		Name:          "govalid.v1.govalid",
 		Tag:           "bytes,50001,opt,name=govalid",
-		Filename:      "govalid.proto",
+		Filename:      "govalid/govalid.proto",
 	},
 }
 
 // Extension fields to descriptorpb.FieldOptions.
 var (
 	// optional govalid.v1.FieldValidation govalid = 50001;
-	E_Govalid = &file_govalid_proto_extTypes[0]
+	E_Govalid = &file_govalid_govalid_proto_extTypes[0]
 )
 
-var File_govalid_proto protoreflect.FileDescriptor
+var File_govalid_govalid_proto protoreflect.FileDescriptor
 
-const file_govalid_proto_rawDesc = "" +
+const file_govalid_govalid_proto_rawDesc = "" +
 	"\n" +
-	"\rgovalid.proto\x12\n" +
+	"\x15govalid/govalid.proto\x12\n" +
 	"govalid.v1\x1a google/protobuf/descriptor.proto\"'\n" +
 	"\x0fFieldValidation\x12\x14\n" +
 	"\x05rules\x18\x01 \x03(\tR\x05rules:V\n" +
-	"\agovalid\x12\x1d.google.protobuf.FieldOptions\x18ц\x03 \x01(\v2\x1b.govalid.v1.FieldValidationR\agovalidB6Z4github.com/khatibomar/protoc-gen-govalidwrapper;mainb\x06proto3"
+	"\agovalid\x12\x1d.google.protobuf.FieldOptions\x18ц\x03 \x01(\v2\x1b.govalid.v1.FieldValidationR\agovalidB9Z7github.com/khatibomar/protoc-gen-govalidwrapper/govalidb\x06proto3"
 
 var (
-	file_govalid_proto_rawDescOnce sync.Once
-	file_govalid_proto_rawDescData []byte
+	file_govalid_govalid_proto_rawDescOnce sync.Once
+	file_govalid_govalid_proto_rawDescData []byte
 )
 
-func file_govalid_proto_rawDescGZIP() []byte {
-	file_govalid_proto_rawDescOnce.Do(func() {
-		file_govalid_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_govalid_proto_rawDesc), len(file_govalid_proto_rawDesc)))
+func file_govalid_govalid_proto_rawDescGZIP() []byte {
+	file_govalid_govalid_proto_rawDescOnce.Do(func() {
+		file_govalid_govalid_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_govalid_govalid_proto_rawDesc), len(file_govalid_govalid_proto_rawDesc)))
 	})
-	return file_govalid_proto_rawDescData
+	return file_govalid_govalid_proto_rawDescData
 }
 
-var file_govalid_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_govalid_proto_goTypes = []any{
+var file_govalid_govalid_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_govalid_govalid_proto_goTypes = []any{
 	(*FieldValidation)(nil),           // 0: govalid.v1.FieldValidation
 	(*descriptorpb.FieldOptions)(nil), // 1: google.protobuf.FieldOptions
 }
-var file_govalid_proto_depIdxs = []int32{
+var file_govalid_govalid_proto_depIdxs = []int32{
 	1, // 0: govalid.v1.govalid:extendee -> google.protobuf.FieldOptions
 	0, // 1: govalid.v1.govalid:type_name -> govalid.v1.FieldValidation
 	2, // [2:2] is the sub-list for method output_type
@@ -121,27 +121,27 @@ var file_govalid_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_govalid_proto_init() }
-func file_govalid_proto_init() {
-	if File_govalid_proto != nil {
+func init() { file_govalid_govalid_proto_init() }
+func file_govalid_govalid_proto_init() {
+	if File_govalid_govalid_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_govalid_proto_rawDesc), len(file_govalid_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_govalid_govalid_proto_rawDesc), len(file_govalid_govalid_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 1,
 			NumServices:   0,
 		},
-		GoTypes:           file_govalid_proto_goTypes,
-		DependencyIndexes: file_govalid_proto_depIdxs,
-		MessageInfos:      file_govalid_proto_msgTypes,
-		ExtensionInfos:    file_govalid_proto_extTypes,
+		GoTypes:           file_govalid_govalid_proto_goTypes,
+		DependencyIndexes: file_govalid_govalid_proto_depIdxs,
+		MessageInfos:      file_govalid_govalid_proto_msgTypes,
+		ExtensionInfos:    file_govalid_govalid_proto_extTypes,
 	}.Build()
-	File_govalid_proto = out.File
-	file_govalid_proto_goTypes = nil
-	file_govalid_proto_depIdxs = nil
+	File_govalid_govalid_proto = out.File
+	file_govalid_govalid_proto_goTypes = nil
+	file_govalid_govalid_proto_depIdxs = nil
 }
