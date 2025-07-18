@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package user.v1;
+
+import "govalid.proto";
+
+option go_package = ".;userv1";
+
+message CreateUserRequest {
+  string name = 1 [(govalid.v1.govalid) = {rules: ["required"]}];
+  string email = 2 [(govalid.v1.govalid) = {rules: ["email"]}];
+  string password = 3;
+  int32 age = 4 [(govalid.v1.govalid) = {rules: ["gte=18"]}];
+  int32 retirement_age = 5;
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package govalid.v1;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/khatibomar/protoc-gen-govalidwrapper;main";
+
+// Field-level validation options
+message FieldValidation {
+  repeated string rules = 1;
+}
+
+// Extend field options to include govalid validation
+extend google.protobuf.FieldOptions {
+  FieldValidation govalid = 50001;
+}
