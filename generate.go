@@ -36,16 +36,13 @@ func generate(gen *protogen.Plugin, file *protogen.File) error {
 		return err
 	}
 
-	// Get output directory from protoc parameters
-	outputDir := getOutputDirectory(gen)
-
 	// Pass 1: Generate wrapper structs only
 	for _, message := range file.Messages {
 		generateWrapperStruct(g, message)
 	}
 
 	// Pass 2: Write file, run govalid, then generate validation methods
-	if err := generateValidationMethods(gen, file, g, outputDir, filename); err != nil {
+	if err := generateValidationMethods(file, g, gen, filename); err != nil {
 		return err
 	}
 
@@ -73,7 +70,7 @@ func generateWrapperStruct(g *protogen.GeneratedFile, msg *protogen.Message) {
 	g.P()
 }
 
-func generateValidationMethods(gen *protogen.Plugin, file *protogen.File, g *protogen.GeneratedFile, outputDir, filename string) error {
+func generateValidationMethods(file *protogen.File, g *protogen.GeneratedFile, gen *protogen.Plugin, filename string) error {
 	// Create a temporary directory for govalid processing
 	tempDir, err := os.MkdirTemp("", "govalidwrapper-*")
 	if err != nil {
@@ -110,13 +107,7 @@ require (
 		return fmt.Errorf("govalid execution failed: %v", err)
 	}
 
-	// Copy govalid-generated validator files back to the final location
-	finalDir := filepath.Join(outputDir, filepath.Dir(filename))
-	if err := os.MkdirAll(finalDir, 0755); err != nil {
-		return fmt.Errorf("failed to create final directory: %v", err)
-	}
-
-	// Copy validator files from temp directory to final location
+	// Copy govalid-generated validator files as protogen.GeneratedFile
 	tempFiles, err := os.ReadDir(tempDir)
 	if err != nil {
 		return fmt.Errorf("failed to read temp directory: %v", err)
@@ -127,16 +118,27 @@ require (
 			continue
 		}
 
-		// Only copy validator files, skip go.mod and the main file
+		// Only process validator files, skip go.mod and the main file
 		if tempFileInfo.Name() == "go.mod" || tempFileInfo.Name() == filepath.Base(filename) {
 			continue
 		}
 
+		// Read the govalid-generated file
 		src := filepath.Join(tempDir, tempFileInfo.Name())
-		dst := filepath.Join(finalDir, tempFileInfo.Name())
+		content, err := os.ReadFile(src)
+		if err != nil {
+			return fmt.Errorf("failed to read govalid file %s: %v", tempFileInfo.Name(), err)
+		}
 
-		if err := copyFile(src, dst); err != nil {
-			return fmt.Errorf("failed to copy file %s: %v", tempFileInfo.Name(), err)
+		// Create a new protogen.GeneratedFile for this validator file
+		// Place it in the same directory as the main _govalid.pb.go file
+		validatorFilename := filepath.Join(filepath.Dir(filename), tempFileInfo.Name())
+		validatorFile := gen.NewGeneratedFile(validatorFilename, file.GoImportPath)
+
+		// Write the content without any package declaration or imports since it's already complete
+		_, err = validatorFile.Write(content)
+		if err != nil {
+			return fmt.Errorf("failed to write validator file content: %v", err)
 		}
 	}
 
@@ -228,13 +230,6 @@ func checkGovalidInstalled() error {
 	return nil
 }
 
-func includeGovalidOutput(g *protogen.GeneratedFile, packageDir string) error {
-	// We no longer include govalid functions in our file to avoid duplicates
-	// The govalid-generated functions will be in separate validator files
-	// and our validation methods will call them directly
-	return nil
-}
-
 func runGovalid(packageDir string) error {
 	// Change to package directory
 	oldWd, err := os.Getwd()
@@ -260,43 +255,8 @@ func runGovalid(packageDir string) error {
 }
 
 func getOutputDirectory(gen *protogen.Plugin) string {
-	// Default to current directory
-	outputDir := "."
-
-	// Try to get output directory from plugin parameters
-	if gen.Request.Parameter != nil && *gen.Request.Parameter != "" {
-		// Parameters can be in the format "source_relative:path" or "output_dir=path"
-		paramStr := *gen.Request.Parameter
-
-		// Handle source_relative:path format
-		if strings.Contains(paramStr, ":") {
-			parts := strings.SplitN(paramStr, ":", 2)
-			if len(parts) == 2 {
-				outputDir = parts[1]
-			}
-		} else {
-			// Handle comma-separated parameters
-			params := strings.Split(paramStr, ",")
-			for _, param := range params {
-				if after, ok := strings.CutPrefix(param, "output_dir="); ok {
-					outputDir = after
-					break
-				}
-			}
-		}
-	}
-
-	// If still default, try to infer from working directory structure
-	if outputDir == "." {
-		// Look for common output patterns like gen/go, generated, etc.
-		if _, err := os.Stat("gen/go"); err == nil {
-			outputDir = "gen/go"
-		} else if _, err := os.Stat("generated"); err == nil {
-			outputDir = "generated"
-		}
-	}
-
-	return outputDir
+	// Not needed anymore since protogen handles file placement
+	return "."
 }
 
 func hasValidationRules(msg *protogen.Message) bool {
