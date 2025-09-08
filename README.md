@@ -78,14 +78,15 @@ message SayHelloResponse {
 ### 3. Generate code
 
 ```bash
-# Create output directories
-mkdir -p gen/go
+# Set output directory
+GEN_DIR=gen/go
+mkdir -p $GEN_DIR
 
 # Generate code for your proto files
 protoc \
     --proto_path=proto \
-    --go_out=paths=source_relative,default_api_level=API_OPAQUE:gen/go \
-    --govalidwrapper_out=source_relative:gen/go \
+    --go_out=paths=source_relative,default_api_level=API_OPAQUE:$GEN_DIR \
+    --govalidwrapper_out=$GEN_DIR \
     $proto
 ```
 
